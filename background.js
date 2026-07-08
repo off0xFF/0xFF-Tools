@@ -4,71 +4,67 @@ const camera = new THREE.PerspectiveCamera(
 75,
 window.innerWidth/window.innerHeight,
 0.1,
-1000
+3000
 );
 
-camera.position.z = 40;
+camera.position.z = 120;
 
 const renderer = new THREE.WebGLRenderer({
 alpha:true,
 antialias:true
 });
 
+renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(window.innerWidth,window.innerHeight);
 
 renderer.domElement.style.position="fixed";
-renderer.domElement.style.top="0";
-renderer.domElement.style.left="0";
-renderer.domElement.style.zIndex="-20";
+renderer.domElement.style.inset="0";
+renderer.domElement.style.zIndex="-50";
 
 document.body.appendChild(renderer.domElement);
 
-const geometry=new THREE.BufferGeometry();
+const stars=[];
 
-const count=5000;
+const geometry=new THREE.SphereGeometry(0.18,6,6);
 
-const positions=new Float32Array(count*3);
+const material=new THREE.MeshBasicMaterial({
+color:0xffffff
+});
 
-for(let i=0;i<count*3;i++){
+for(let i=0;i<4000;i++){
 
-positions[i]=(Math.random()-0.5)*600;
+const star=new THREE.Mesh(geometry,material);
+
+star.position.x=(Math.random()-0.5)*1200;
+star.position.y=(Math.random()-0.5)*1200;
+star.position.z=(Math.random()-0.5)*1200;
+
+scene.add(star);
+
+stars.push(star);
 
 }
 
-geometry.setAttribute(
-'position',
-new THREE.BufferAttribute(positions,3)
-);
+let mouseX=0;
+let mouseY=0;
 
-const material=new THREE.PointsMaterial({
+document.addEventListener("mousemove",(e)=>{
 
-color:0xffffff,
-
-size:0.6,
-
-transparent:true,
-
-opacity:0.9
+mouseX=(e.clientX/window.innerWidth-.5)*0.5;
+mouseY=(e.clientY/window.innerHeight-.5)*0.5;
 
 });
-
-const stars=new THREE.Points(
-
-geometry,
-
-material
-
-);
-
-scene.add(stars);
 
 function animate(){
 
 requestAnimationFrame(animate);
 
-stars.rotation.y+=0.00015;
+scene.rotation.y+=0.00015;
 
-stars.rotation.x+=0.00005;
+scene.rotation.x+=0.00003;
+
+scene.rotation.y+=(mouseX-scene.rotation.y)*0.01;
+scene.rotation.x+=(-mouseY-scene.rotation.x)*0.01;
 
 renderer.render(scene,camera);
 
