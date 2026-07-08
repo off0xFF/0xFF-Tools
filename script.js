@@ -1,86 +1,243 @@
-const canvas = document.createElement("canvas");
-document.body.appendChild(canvas);
-
-const ctx = canvas.getContext("2d");
-
-function resize(){
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
-resize();
-window.addEventListener("resize", resize);
-
-const stars = [];
-
-for(let i=0;i<250;i++){
-    stars.push({
-        x:Math.random()*canvas.width,
-        y:Math.random()*canvas.height,
-        r:Math.random()*2,
-        s:Math.random()*0.5+0.1
-    });
+html{
+    scroll-behavior:smooth;
 }
 
-const meteors=[];
+body{
 
-function meteor(){
-    meteors.push({
-        x:-200,
-        y:Math.random()*canvas.height/2,
-        vx:18+Math.random()*8,
-        vy:8+Math.random()*5,
-        life:0
-    });
-}
+    background:#000;
+    color:white;
 
-setInterval(meteor,1200);
+    font-family:'Space Grotesk',sans-serif;
 
-function animate(){
-
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-
-    for(const star of stars){
-
-        ctx.fillStyle="white";
-        ctx.beginPath();
-        ctx.arc(star.x,star.y,star.r,0,Math.PI*2);
-        ctx.fill();
-
-        star.y+=star.s;
-
-        if(star.y>canvas.height){
-            star.y=0;
-            star.x=Math.random()*canvas.width;
-        }
-
-    }
-
-    for(let i=meteors.length-1;i>=0;i--){
-
-        const m=meteors[i];
-
-        ctx.strokeStyle="white";
-        ctx.lineWidth=2;
-
-        ctx.beginPath();
-        ctx.moveTo(m.x,m.y);
-        ctx.lineTo(m.x-180,m.y-70);
-        ctx.stroke();
-
-        m.x+=m.vx;
-        m.y+=m.vy;
-
-        m.life++;
-
-        if(m.life>120){
-            meteors.splice(i,1);
-        }
-
-    }
-
-    requestAnimationFrame(animate);
+    overflow-x:hidden;
 
 }
 
-animate();
+/* ======================= */
+/* BACKGROUND */
+/* ======================= */
+
+#background{
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:-10;
+
+    background:
+    radial-gradient(circle at 20% 20%,rgba(255,255,255,.08),transparent 25%),
+    radial-gradient(circle at 80% 60%,rgba(255,255,255,.04),transparent 35%),
+    linear-gradient(#000,#020202);
+
+}
+
+/* ======================= */
+/* HEADER */
+/* ======================= */
+
+header{
+
+    text-align:center;
+
+    padding-top:90px;
+
+    padding-bottom:60px;
+
+}
+
+header h1{
+
+    font-size:70px;
+
+    letter-spacing:3px;
+
+    text-transform:uppercase;
+
+    color:white;
+
+    text-shadow:
+
+    0 0 8px white,
+    0 0 18px white,
+    0 0 45px white;
+
+}
+
+header p{
+
+    color:#8d8d8d;
+
+    margin-top:20px;
+
+    font-size:20px;
+
+}
+
+/* ======================= */
+/* SEARCH */
+/* ======================= */
+
+.searchBox{
+
+    display:flex;
+
+    justify-content:center;
+
+}
+
+.searchBox input{
+
+    width:700px;
+
+    max-width:90%;
+
+    padding:18px;
+
+    border-radius:15px;
+
+    background:rgba(255,255,255,.04);
+
+    border:1px solid rgba(255,255,255,.15);
+
+    color:white;
+
+    outline:none;
+
+    backdrop-filter:blur(20px);
+
+    transition:.35s;
+
+}
+
+.searchBox input:focus{
+
+    border-color:white;
+
+    box-shadow:
+
+    0 0 20px rgba(255,255,255,.25);
+
+}
+
+/* ======================= */
+/* CONTAINER */
+/* ======================= */
+
+.container{
+
+    width:1100px;
+
+    max-width:92%;
+
+    margin:60px auto;
+
+}
+
+/* ======================= */
+/* CARD */
+/* ======================= */
+
+.card{
+
+    background:rgba(255,255,255,.05);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    border-radius:22px;
+
+    padding:35px;
+
+    backdrop-filter:blur(25px);
+
+    transition:.35s;
+
+}
+
+.card:hover{
+
+    transform:translateY(-10px);
+
+    border-color:white;
+
+    box-shadow:
+
+    0 0 25px rgba(255,255,255,.15),
+
+    0 0 80px rgba(255,255,255,.05);
+
+}
+
+.card h2{
+
+    font-size:35px;
+
+}
+
+.card p{
+
+    margin-top:15px;
+
+    color:#b5b5b5;
+
+}
+
+/* ======================= */
+/* BUTTON */
+/* ======================= */
+
+.download{
+
+display:inline-block;
+
+margin-top:30px;
+
+padding:16px 34px;
+
+border-radius:12px;
+
+text-decoration:none;
+
+background:white;
+
+color:black;
+
+font-weight:bold;
+
+transition:.3s;
+
+}
+
+.download:hover{
+
+transform:scale(1.05);
+
+box-shadow:
+
+0 0 20px white,
+
+0 0 40px white;
+
+}
+
+/* ======================= */
+
+::-webkit-scrollbar{
+
+width:10px;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+background:white;
+
+border-radius:30px;
+
+}
