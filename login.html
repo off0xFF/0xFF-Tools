@@ -1,215 +1,103 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Connexion - 0xFF Tools</title>
+<script>
+const supabase = window.supabase.createClient(
+    "https://xbejkvepazscdtkziykr.supabase.co",
+    "sb_publishable_kGA28nBDs0xHXfv4MEUL3Q_cms9RpiM"
+);
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+async function register() {
 
-<style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial,sans-serif;
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    if (!email || !password) {
+        alert("Remplis tous les champs.");
+        return;
+    }
+
+    const { error } = await supabase.auth.signUp({
+        email: email,
+        password: password
+    });
+
+    if (error) {
+        alert(error.message);
+    } else {
+        alert("Compte créé avec succès !");
+    }
 }
 
-body{
-background:#000;
-display:flex;
-justify-content:center;
-align-items:center;
-height:100vh;
-overflow:hidden;
-color:white;
+async function login() {
+
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    if (!email || !password) {
+        alert("Remplis tous les champs.");
+        return;
+    }
+
+    const { error } = await supabase.auth.signInWithPassword({
+        email: email,
+        password: password
+    });
+
+    if (error) {
+        alert(error.message);
+    } else {
+        window.location.href = "index.html";
+    }
 }
 
-canvas{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-z-index:-1;
+function loginAsGuest() {
+    window.location.href = "index.html";
 }
 
-.box{
-width:420px;
-background:rgba(10,10,10,.85);
-backdrop-filter:blur(20px);
-padding:40px;
-border-radius:20px;
-border:1px solid rgba(255,255,255,.15);
-box-shadow:
-0 0 25px rgba(255,255,255,.12),
-0 0 60px rgba(255,255,255,.05);
+// Fond étoilé
+
+const canvas = document.getElementById("bg");
+const ctx = canvas.getContext("2d");
+
+function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 }
 
-h1{
-text-align:center;
-margin-bottom:30px;
-font-size:34px;
-text-shadow:0 0 15px white;
+resize();
+window.addEventListener("resize", resize);
+
+const stars = [];
+
+for (let i = 0; i < 250; i++) {
+    stars.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 2
+    });
 }
 
-input{
-width:100%;
-padding:15px;
-margin-top:15px;
-border:none;
-border-radius:12px;
-background:#111;
-color:white;
-outline:none;
-}
+function draw() {
 
-button{
-width:100%;
-padding:15px;
-margin-top:20px;
-border:none;
-border-radius:12px;
-cursor:pointer;
-background:white;
-color:black;
-font-size:17px;
-font-weight:bold;
-transition:.3s;
-}
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-button:hover{
-transform:scale(1.03);
-box-shadow:0 0 25px white;
-}
+    ctx.fillStyle = "white";
 
-p{
-text-align:center;
-margin-top:20px;
-cursor:pointer;
-color:#aaa;
-}
+    stars.forEach(star => {
 
-p:hover{
-color:white;
-}
-</style>
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.r, 0, Math.PI * 2);
+        ctx.fill();
 
-</head>
-<body>
+        star.y += 0.2;
 
-<canvas id="bg"></canvas>
+        if (star.y > canvas.height) {
+            star.y = 0;
+            star.x = Math.random() * canvas.width;
+        }
 
-<div class="box">
+    });
 
-<h1>0xFF</h1>
-
-<input id="username" placeholder="Nom d'utilisateur">
-
-<input id="password" type="password" placeholder="Mot de passe">
-
-<button onclick="login()">Connexion</button>
-
-<button onclick="register()">Créer un compte</button>
-
-<p onclick="loginAsGuest()">Continuer sans compte</p>
-
-</div>
-
-
-async function register(){
-
-const email=document.getElementById("email").value;
-const password=document.getElementById("password").value;
-
-const {error}=await supabase.auth.signUp({
-email,
-password
-});
-
-if(error){
-alert(error.message);
-}else{
-alert("Compte créé !");
-}
-
-}
-
-async function login(){
-
-const email=document.getElementById("email").value;
-const password=document.getElementById("password").value;
-
-const {error}=await supabase.auth.signInWithPassword({
-email,
-password
-});
-
-if(error){
-alert(error.message);
-}else{
-window.location="index.html";
-}
-
-}
-
-function loginAsGuest(){
-window.location="index.html";
-}
-
-const canvas=document.getElementById("bg");
-const ctx=canvas.getContext("2d");
-
-canvas.width=innerWidth;
-canvas.height=innerHeight;
-
-let stars=[];
-
-for(let i=0;i<250;i++){
-
-stars.push({
-x:Math.random()*canvas.width,
-y:Math.random()*canvas.height,
-r:Math.random()*2
-});
-
-}
-
-function draw(){
-
-ctx.clearRect(0,0,canvas.width,canvas.height);
-
-ctx.fillStyle="white";
-
-stars.forEach(s=>{
-
-ctx.beginPath();
-
-ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
-
-ctx.fill();
-
-s.y+=0.2;
-
-if(s.y>canvas.height){
-
-s.y=0;
-s.x=Math.random()*canvas.width;
-
-}
-
-});
-
-requestAnimationFrame(draw);
-
+    requestAnimationFrame(draw);
 }
 
 draw();
-
 </script>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="auth.js"></script>
-  
-</body>
-</html>
