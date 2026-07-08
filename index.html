@@ -1,101 +1,152 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>0xFF Tools</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>0xFF Tools</title>
 
-    <style>
-        *{
-            margin:0;
-            padding:0;
-            box-sizing:border-box;
-        }
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
-        body{
-            background:#0d1117;
-            color:white;
-            font-family:Arial, Helvetica, sans-serif;
-            padding:40px;
-        }
+body{
+    background:#0d1117;
+    font-family:Arial,Helvetica,sans-serif;
+    color:white;
+}
 
-        h1{
-            text-align:center;
-            color:#00ff88;
-            font-size:50px;
-            margin-bottom:10px;
-        }
+header{
+    text-align:center;
+    padding:50px 20px;
+}
 
-        .subtitle{
-            text-align:center;
-            color:#888;
-            margin-bottom:40px;
-        }
+h1{
+    color:#00ff88;
+    font-size:55px;
+}
 
-        .card{
-            background:#161b22;
-            border:1px solid #30363d;
-            border-radius:15px;
-            padding:20px;
-            max-width:700px;
-            margin:20px auto;
-        }
+header p{
+    color:#888;
+    margin-top:10px;
+}
 
-        .card h2{
-            color:#00ff88;
-            margin-bottom:10px;
-        }
+.search{
+    width:90%;
+    max-width:500px;
+    margin:30px auto;
+    display:block;
+    padding:15px;
+    border:none;
+    border-radius:10px;
+    background:#161b22;
+    color:white;
+    font-size:16px;
+}
 
-        .card p{
-            color:#ccc;
-            margin-bottom:20px;
-        }
+.container{
+    width:90%;
+    max-width:900px;
+    margin:auto;
+}
 
-        .download{
-            display:inline-block;
-            background:#00ff88;
-            color:#000;
-            padding:12px 20px;
-            border-radius:8px;
-            text-decoration:none;
-            font-weight:bold;
-        }
+.card{
+    background:#161b22;
+    border:1px solid #30363d;
+    border-radius:15px;
+    padding:20px;
+    margin-bottom:20px;
+    transition:.3s;
+}
 
-        .download:hover{
-            background:#00cc66;
-        }
+.card:hover{
+    transform:translateY(-5px);
+    border-color:#00ff88;
+}
 
-        footer{
-            text-align:center;
-            color:#666;
-            margin-top:50px;
-        }
-    </style>
+.card h2{
+    color:#00ff88;
+}
+
+.card p{
+    color:#bbb;
+    margin:10px 0;
+}
+
+.download{
+    display:inline-block;
+    background:#00ff88;
+    color:black;
+    text-decoration:none;
+    padding:12px 20px;
+    border-radius:8px;
+    font-weight:bold;
+}
+
+.download:hover{
+    background:#00cc66;
+}
+
+footer{
+    text-align:center;
+    color:#666;
+    padding:40px;
+}
+</style>
 
 </head>
 <body>
 
+<header>
 <h1>0xFF Tools</h1>
+<p>Bibliothèque de téléchargements</p>
+</header>
 
-<p class="subtitle">
-Télécharge gratuitement mes outils.
-</p>
+<input
+class="search"
+type="text"
+id="search"
+placeholder="Rechercher un outil..."
+onkeyup="searchTools()">
+
+<div class="container" id="tools">
 
 <div class="card">
-    <h2>Tool 1</h2>
+<h2>Tool1.zip</h2>
+<p>Mon premier outil.</p>
+<a class="download" href="downloads/Tool1.zip" download>📦 Télécharger</a>
+</div>
 
-    <p>
-        Description de mon premier outil.
-    </p>
+<div class="card">
+<h2>Tool2.zip</h2>
+<p>Mon deuxième outil.</p>
+<a class="download" href="downloads/Tool2.zip" download>📦 Télécharger</a>
+</div>
 
-    <a class="download" href="downloads/Tool1.zip" download>
-        📦 Télécharger
-    </a>
 </div>
 
 <footer>
-    © 2026 - 0xFF Tools
+© 2026 0xFF Tools
 </footer>
+
+<script>
+function searchTools(){
+let input=document.getElementById("search").value.toLowerCase();
+let cards=document.getElementsByClassName("card");
+
+for(let i=0;i<cards.length;i++){
+let txt=cards[i].innerText.toLowerCase();
+
+if(txt.indexOf(input)>-1){
+cards[i].style.display="block";
+}else{
+cards[i].style.display="none";
+}
+}
+}
+</script>
 
 </body>
 </html>
