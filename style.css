@@ -241,3 +241,122 @@ background:white;
 border-radius:30px;
 
 }
+/* Curseur lumineux */
+
+#cursorGlow{
+
+position:fixed;
+
+width:450px;
+
+height:450px;
+
+border-radius:50%;
+
+pointer-events:none;
+
+transform:translate(-50%,-50%);
+
+background:radial-gradient(circle,rgba(255,255,255,.12),transparent 70%);
+
+filter:blur(25px);
+
+z-index:-2;
+
+}
+
+
+
+/* Etoiles */
+
+.star{
+
+position:fixed;
+
+width:2px;
+
+height:2px;
+
+background:white;
+
+border-radius:50%;
+
+animation:twinkle 3s infinite;
+
+z-index:-3;
+
+}
+
+@keyframes twinkle{
+
+0%,100%{
+
+opacity:.2;
+
+transform:scale(.7);
+
+}
+
+50%{
+
+opacity:1;
+
+transform:scale(1.8);
+
+}
+
+}
+
+
+
+/* Etoiles filantes */
+
+.meteor{
+
+position:fixed;
+
+width:220px;
+
+height:2px;
+
+background:linear-gradient(90deg,#fff,transparent);
+
+box-shadow:
+
+0 0 20px white,
+
+0 0 40px white;
+
+transform:rotate(-30deg);
+
+animation:meteor linear forwards;
+
+z-index:-2;
+
+}
+
+@keyframes meteor{
+
+0%{
+
+transform:translate(0,0) rotate(-30deg);
+
+opacity:0;
+
+}
+
+10%{
+
+opacity:1;
+
+}
+
+100%{
+
+transform:translate(1800px,900px) rotate(-30deg);
+
+opacity:0;
+
+}
+
+}
