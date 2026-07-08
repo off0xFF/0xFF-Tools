@@ -347,35 +347,77 @@ line-height:1.8;
 
 .downloadButton{
 
-display:inline-block;
+position:relative;
 
-margin-top:30px;
+display:inline-flex;
 
-padding:15px 35px;
+align-items:center;
+
+justify-content:center;
+
+padding:16px 38px;
+
+border-radius:14px;
+
+overflow:hidden;
 
 background:white;
 
 color:black;
 
-font-weight:bold;
-
-border-radius:12px;
+font-weight:700;
 
 text-decoration:none;
 
 transition:.35s;
 
+box-shadow:
+0 0 20px rgba(255,255,255,.2);
+
+}
+
+.downloadButton::before{
+
+content:"";
+
+position:absolute;
+
+top:0;
+
+left:-120%;
+
+width:60%;
+
+height:100%;
+
+background:linear-gradient(
+90deg,
+transparent,
+rgba(255,255,255,.7),
+transparent
+);
+
+transform:skewX(-20deg);
+
+transition:.7s;
+
+}
+
+.downloadButton:hover::before{
+
+left:170%;
+
 }
 
 .downloadButton:hover{
 
-transform:scale(1.05);
+transform:translateY(-5px);
 
 box-shadow:
 
 0 0 20px white,
 
-0 0 45px white;
+0 0 60px rgba(255,255,255,.5);
 
 }
 
