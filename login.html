@@ -107,91 +107,107 @@ color:#aaa;
 </div>
 
 <script>
+window.onload = function () {
 
-const supabase = window.supabase.createClient(
-"https://xbejkvepazscdtkziykr.supabase.co",
-"sb_publishable_kGA28nBDs0xHXfv4MEUL3Q_cms9RpiM"
-);
+    const SUPABASE_URL = "https://xbejkvepazscdtkziykr.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_kGA28nBDs0xHXfv4MEUL3Q_cms9RpiM";
 
-async function register(){
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-const email=document.getElementById("email").value;
-const password=document.getElementById("password").value;
+    window.register = async function () {
 
-const {error}=await supabase.auth.signUp({
-email,
-password
-});
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value;
 
-if(error){
-alert(error.message);
-}else{
-alert("Compte créé !");
-}
+        if (!email || !password) {
+            alert("Remplis tous les champs.");
+            return;
+        }
 
-}
+        const { error } = await supabase.auth.signUp({
+            email: email,
+            password: password
+        });
 
-async function login(){
+        if (error) {
+            alert(error.message);
+            console.error(error);
+        } else {
+            alert("Compte créé avec succès !");
+        }
+    };
 
-const email=document.getElementById("email").value;
-const password=document.getElementById("password").value;
+    window.login = async function () {
 
-const {error}=await supabase.auth.signInWithPassword({
-email,
-password
-});
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value;
 
-if(error){
-alert(error.message);
-}else{
-window.location="index.html";
-}
+        if (!email || !password) {
+            alert("Remplis tous les champs.");
+            return;
+        }
 
-}
+        const { error } = await supabase.auth.signInWithPassword({
+            email: email,
+            password: password
+        });
 
-const canvas=document.getElementById("bg");
-const ctx=canvas.getContext("2d");
+        if (error) {
+            alert(error.message);
+            console.error(error);
+        } else {
+            window.location.href = "index.html";
+        }
+    };
 
-canvas.width=window.innerWidth;
-canvas.height=window.innerHeight;
+    // Fond étoilé
+    const canvas = document.getElementById("bg");
+    const ctx = canvas.getContext("2d");
 
-const stars=[];
+    function resize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
 
-for(let i=0;i<250;i++){
-stars.push({
-x:Math.random()*canvas.width,
-y:Math.random()*canvas.height,
-r:Math.random()*2
-});
-}
+    resize();
+    window.addEventListener("resize", resize);
 
-function draw(){
+    const stars = [];
 
-ctx.clearRect(0,0,canvas.width,canvas.height);
+    for (let i = 0; i < 250; i++) {
+        stars.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            r: Math.random() * 2
+        });
+    }
 
-ctx.fillStyle="white";
+    function draw() {
 
-stars.forEach(s=>{
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-ctx.beginPath();
-ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
-ctx.fill();
+        ctx.fillStyle = "white";
 
-s.y+=0.2;
+        stars.forEach(star => {
 
-if(s.y>canvas.height){
-s.y=0;
-s.x=Math.random()*canvas.width;
-}
+            ctx.beginPath();
+            ctx.arc(star.x, star.y, star.r, 0, Math.PI * 2);
+            ctx.fill();
 
-});
+            star.y += 0.2;
 
-requestAnimationFrame(draw);
+            if (star.y > canvas.height) {
+                star.y = 0;
+                star.x = Math.random() * canvas.width;
+            }
 
-}
+        });
 
-draw();
+        requestAnimationFrame(draw);
+    }
 
+    draw();
+};
 </script>
 
 </body>
