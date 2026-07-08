@@ -1,3 +1,10 @@
+const SUPABASE_URL = "https://xbejkvepazscdtkziykr.supabase.co";
+const SUPABASE_KEY = "sb_publishable_kGA28nBDs0xHXfv4MEUL3Q_cms9RpiM";
+
+const supabase = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
 // Recherche
 
 const search = document.getElementById("search");
