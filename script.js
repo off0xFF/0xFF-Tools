@@ -111,3 +111,38 @@ card.style.setProperty("--y",y+"px");
 });
 
 });
+// Effet 3D des cartes
+
+document.querySelectorAll(".card").forEach(card=>{
+
+card.addEventListener("mousemove",(e)=>{
+
+const rect=card.getBoundingClientRect();
+
+const x=e.clientX-rect.left;
+
+const y=e.clientY-rect.top;
+
+const rotateY=((x-rect.width/2)/18);
+
+const rotateX=((rect.height/2-y)/18);
+
+card.style.transform=
+`perspective(1000px)
+rotateX(${rotateX}deg)
+rotateY(${rotateY}deg)
+translateY(-8px)`;
+
+card.style.setProperty("--x",x+"px");
+card.style.setProperty("--y",y+"px");
+
+});
+
+card.addEventListener("mouseleave",()=>{
+
+card.style.transform=
+"perspective(1000px) rotateX(0deg) rotateY(0deg)";
+
+});
+
+});
