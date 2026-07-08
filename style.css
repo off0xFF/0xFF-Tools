@@ -390,3 +390,18 @@ padding:80px;
 color:#666;
 
 }
+.card{
+
+transform-style:preserve-3d;
+
+cursor:pointer;
+
+}
+
+.card h2,
+.card p,
+.downloadButton{
+
+transform:translateZ(40px);
+
+}
